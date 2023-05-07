@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClassServerImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.demo.serviceimpl</a>
+</div>
+
+<h1>Coverage Summary for Class: ClassServerImpl (com.example.demo.serviceimpl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClassServerImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (28/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.example.demo.serviceimpl;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.example.demo.dao.ClassDao;
+<i class="no-highlight">4</i>&nbsp;import com.example.demo.entity.*;
+<i class="no-highlight">5</i>&nbsp;import com.example.demo.entity.Class;
+<i class="no-highlight">6</i>&nbsp;import com.example.demo.service.ClassServer;
+<i class="no-highlight">7</i>&nbsp;import io.micrometer.core.instrument.search.Search;
+<i class="no-highlight">8</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i class="no-highlight">9</i>&nbsp;import org.springframework.data.redis.core.BoundZSetOperations;
+<i class="no-highlight">10</i>&nbsp;import org.springframework.data.redis.core.RedisTemplate;
+<i class="no-highlight">11</i>&nbsp;import org.springframework.stereotype.Service;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;import java.math.BigDecimal;
+<i class="no-highlight">14</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">15</i>&nbsp;import java.util.Collections;
+<i class="no-highlight">16</i>&nbsp;import java.util.List;
+<i class="no-highlight">17</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;@Service
+<b class="fc"><i class="no-highlight">20</i>&nbsp;public class ClassServerImpl implements ClassServer {</b>
+<i class="no-highlight">21</i>&nbsp;
+<b class="fc"><i class="no-highlight">22</i>&nbsp;    private final String[] tags = {&quot;cycle&quot;, &quot;run&quot;, &quot;fit&quot;, &quot;basketball&quot;,&quot;soccer&quot;};</b>
+<i class="no-highlight">23</i>&nbsp;
+<b class="fc"><i class="no-highlight">24</i>&nbsp;    private final String[] diffs = {&quot;low&quot;, &quot;mid&quot;, &quot;high&quot;};</b>
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @Autowired
+<i class="no-highlight">27</i>&nbsp;    ClassDao classDao;
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    @Autowired
+<i class="no-highlight">30</i>&nbsp;    RedisTemplate redisTemplate;
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    @Override
+<i class="no-highlight">34</i>&nbsp;    public List&lt;Class&gt; getAllClasses()
+<i class="no-highlight">35</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        return classDao.getAllClasses();</b>
+<i class="no-highlight">37</i>&nbsp;    }
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    @Override
+<i class="no-highlight">40</i>&nbsp;    public List&lt;Class&gt; getClassesByTag(String tag)
+<i class="no-highlight">41</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        if(!ifExistInTags(tag))</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;            return Collections.emptyList();</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        return classDao.getClassesByTag(tag);</b>
+<i class="no-highlight">45</i>&nbsp;    }
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;    @Override
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    public List&lt;Class&gt; getClassesByTitle(String title){return classDao.getClassesByTitle(title);}</b>
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;    @Override
+<i class="no-highlight">52</i>&nbsp;    public Class getClassById(int classId, int from)
+<i class="no-highlight">53</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        Class choose =  classDao.getClassById(classId, from);</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        if(from &lt;= 0 || classId &lt; 0)</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;            return choose;</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;        BigDecimal currentScore = new BigDecimal(1+&quot;.&quot;+(Integer.MAX_VALUE-classId));</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;        Double scoreHistory = redisTemplate.boundZSetOps(&quot;RANK_TODAY&quot;).score(classId);</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        if (scoreHistory == null) {</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;            redisTemplate.boundZSetOps(&quot;RANK_TODAY&quot;).add(choose.getTitle()+&quot;_&quot;+classId, currentScore.doubleValue());</b>
+<i class="no-highlight">61</i>&nbsp;        }
+<i class="no-highlight">62</i>&nbsp;        else
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            redisTemplate.boundZSetOps(&quot;RANK_TODAY&quot;).add(choose.getTitle()+&quot;_&quot;+classId,scoreHistory+1);</b>
+<b class="fc"><i class="no-highlight">64</i>&nbsp;        return choose;</b>
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    Boolean ifExistInTags(String tag)
+<i class="no-highlight">68</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        for(String tag_ : tags)</b>
+<i class="no-highlight">70</i>&nbsp;        {
+<b class="fc"><i class="no-highlight">71</i>&nbsp;            if(Objects.equals(tag_, tag))</b>
+<b class="fc"><i class="no-highlight">72</i>&nbsp;                return true;</b>
+<i class="no-highlight">73</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        return false;</b>
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;
+<i class="no-highlight">78</i>&nbsp;    Boolean ifExistInDiffs(String diff)
+<i class="no-highlight">79</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;        for(String diff_ : diffs)</b>
+<i class="no-highlight">81</i>&nbsp;        {
+<b class="fc"><i class="no-highlight">82</i>&nbsp;            if(Objects.equals(diff_, diff))</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;                return true;</b>
+<i class="no-highlight">84</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">85</i>&nbsp;        return false;</b>
+<i class="no-highlight">86</i>&nbsp;    }
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    @Override
+<i class="no-highlight">89</i>&nbsp;    public List&lt;Show&gt; getClassByMulTAG(String tag, String difficulty, String method, String target)
+<i class="no-highlight">90</i>&nbsp;    {
+<b class="fc"><i class="no-highlight">91</i>&nbsp;        if(!ifExistInTags(tag) || !ifExistInDiffs(difficulty))</b>
+<b class="fc"><i class="no-highlight">92</i>&nbsp;            return Collections.emptyList();</b>
+<b class="fc"><i class="no-highlight">93</i>&nbsp;        return classDao.getShowByMulti(tag, difficulty, method, target);</b>
+<i class="no-highlight">94</i>&nbsp;    }
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;}
+<i class="no-highlight">97</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-07 21:45</div>
+</div>
+</body>
+</html>
