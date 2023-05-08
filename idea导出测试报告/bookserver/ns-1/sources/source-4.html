@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AdminProcess</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.yifan.bookstore.service</a>
+</div>
+
+<h1>Coverage Summary for Class: AdminProcess (com.yifan.bookstore.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">AdminProcess</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.yifan.bookstore.service;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.springframework.web.bind.annotation.CrossOrigin;
+<i class="no-highlight">4</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import javax.servlet.http.HttpSession;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;public interface AdminProcess {
+<i class="no-highlight">9</i>&nbsp;    //@CrossOrigin
+<i class="no-highlight">10</i>&nbsp;    //@RequestMapping(&quot;admin/getBook&quot;)
+<i class="no-highlight">11</i>&nbsp;    String adminGetBook(HttpSession httpSession,String usn);
+<i class="no-highlight">12</i>&nbsp;//@CrossOrigin
+<i class="no-highlight">13</i>&nbsp;   // @RequestMapping(&quot;admin/modify_book&quot;)
+<i class="no-highlight">14</i>&nbsp;    String modifyBook(HttpSession httpSession,String usn,
+<i class="no-highlight">15</i>&nbsp;                             int book_id, String name,
+<i class="no-highlight">16</i>&nbsp;                             String author, int isbn,
+<i class="no-highlight">17</i>&nbsp;                             int inventory, float price,
+<i class="no-highlight">18</i>&nbsp;                             String image, String type,String description);
+<i class="no-highlight">19</i>&nbsp;//@CrossOrigin
+<i class="no-highlight">20</i>&nbsp;    //@RequestMapping(&quot;admin/delete_book&quot;)
+<i class="no-highlight">21</i>&nbsp;    String modifyBook(HttpSession httpSession, int book_id);
+<i class="no-highlight">22</i>&nbsp;//@CrossOrigin
+<i class="no-highlight">23</i>&nbsp;    //@RequestMapping(&quot;admin/get_user&quot;)
+<i class="no-highlight">24</i>&nbsp;    String getUser(HttpSession httpSession,String usn);
+<i class="no-highlight">25</i>&nbsp;//@CrossOrigin
+<i class="no-highlight">26</i>&nbsp;   // @RequestMapping(&quot;admin/modify_user&quot;)
+<i class="no-highlight">27</i>&nbsp;    String modifyUser(HttpSession httpSession, String username, int isValid);
+<i class="no-highlight">28</i>&nbsp;//@CrossOrigin
+<i class="no-highlight">29</i>&nbsp;    //@RequestMapping(&quot;admin/get_indents&quot;)
+<i class="no-highlight">30</i>&nbsp;    String modifyUser(HttpSession httpSession,String usn);
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-17 11:34</div>
+</div>
+</body>
+</html>
